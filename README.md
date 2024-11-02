@@ -11,7 +11,7 @@
 <br>
 
 > [!NOTE]
-> You can talk to your 01 using OpenAI's [Realtime API](https://platform.openai.com/docs/guides/realtime) (Advanced Voice Mode) via the `--multimodel` flag, e.g:
+> You can talk to your 01 using OpenAI's [Realtime API](https://platform.openai.com/docs/guides/realtime) (Advanced Voice Mode) via the `--multimodal` flag, e.g:
 > ```shell
 > poetry run 01 --server livekit --qr --expose --multimodal
 > ```
