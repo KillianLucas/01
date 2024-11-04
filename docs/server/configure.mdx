@@ -141,3 +141,19 @@ interpreter.tts = "coqui"
   introducing all-local functionality for the Livekit server as soon as
   possible.
 </Note>
+
+### Deploy and Configure Voice Feature in GCP VM
+
+To deploy and configure the voice feature in a GCP VM where Open Interpreter is already installed, you can use the provided `deploy_voice_feature.sh` script. This script automates the entire process, including installing necessary dependencies, setting up environment variables, and starting the server with the voice feature enabled.
+
+1. Download the `deploy_voice_feature.sh` script to your GCP VM.
+2. Make the script executable:
+   ```bash
+   chmod +x deploy_voice_feature.sh
+   ```
+3. Run the script:
+   ```bash
+   ./deploy_voice_feature.sh
+   ```
+
+The script will handle the installation of dependencies, configuration of environment variables, and starting the server with the voice feature enabled using the OpenAI Realtime Voice API.
