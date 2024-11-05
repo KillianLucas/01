@@ -2,6 +2,7 @@
 
 <p align="center">
     <a href="https://discord.gg/Hvz9Axh84z"><img alt="Discord" src="https://img.shields.io/discord/1146610656779440188?logo=discord&style=social&logoColor=black"/></a>
+    <a href="docs/README_CN.md"><img src="https://img.shields.io/badge/文档-中文版-white.svg" alt="CN doc"/></a>
     <br>
     <br>
     <strong>The #1 open-source voice interface.</strong><br>
