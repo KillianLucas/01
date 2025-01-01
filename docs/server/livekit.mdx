@@ -69,6 +69,18 @@ Replace the placeholders with your actual API keys.
 
 ### Starting the Server
 
+**To use the mobile app, run the following command**
+
+```bash
+poetry run 01 --server livekit --qr --expose
+```
+
+To customize the profile, append the --profile flag with the profile name: 
+
+```bash
+poetry run 01 --server livekit --qr --expose --profile fast
+```
+
 To start the Livekit server, run the following command:
 
 ```bash
@@ -87,18 +99,10 @@ To expose over the internet via ngrok
 poetry run 01 --server livekit --expose
 ```
 
-In order to use the mobile app over the web, use both flags
-
-```bash
-poetry run 01 --server livekit --qr --expose
-```
-
 <Note>
-  Currently, our Livekit server only works with Deepgram and Eleven Labs. We are
-  working to introduce all-local functionality as soon as possible. By setting
-  your profile (see [Configure Your Profile](/software/configure)), you can
-  still change your LLM to be a local LLM, but the `interpreter.tts` value will
-  be ignored for the Livekit server.
+  Livekit server now supports Local STT and TTS for fully local pipeline. 
+  Setup instructions are provided in the [configuring your 01](/server/configure#local-tts-and-stt-with-livekit) section.
+
 </Note>
 
 ## Livekit vs. Light Server

@@ -1,0 +1,16 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1rem;
+  max-height: min(100%, 100vh);
+  overflow-y: auto;
+}
+
+.detailsSection {
+  padding-left: 1rem;
+}
+
+.detailsSection > div {
+  padding-left: 1rem;
+}

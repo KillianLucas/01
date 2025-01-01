@@ -103,6 +103,9 @@ async def entrypoint(ctx: JobContext):
         fnc_ctx=fnc_ctx,
     )
 
+    # Send a message to the client to switch to multimodal mode
+    await ctx.room.local_participant.publish_data(payload="{MULTIMODAL_MODE}", topic="agent_mode")
+
     # Initial message to start the interaction
     session.conversation.item.create(
       llm.ChatMessage(

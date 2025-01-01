@@ -1,0 +1,37 @@
+{
+  "name": "livekit-meet",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@datadog/browser-logs": "^5.23.3",
+    "@livekit/components-react": "2.6.9",
+    "@livekit/components-styles": "1.1.4",
+    "@livekit/krisp-noise-filter": "0.2.13",
+    "clsx": "^2.1.1",
+    "livekit-client": "2.7.3",
+    "livekit-server-sdk": "2.9.3",
+    "loglevel": "^1.9.2",
+    "next": "14.2.18",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tinykeys": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "eslint": "9.14.0",
+    "eslint-config-next": "14.2.18",
+    "source-map-loader": "^5.0.0",
+    "typescript": "5.6.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

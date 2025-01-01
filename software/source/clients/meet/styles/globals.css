@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background-color: #111;
+}
+
+html,
+body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  max-width: 500px;
+  padding-inline: 2rem;
+}
+
+.header > img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}
+
+.header > h2 {
+  font-family: 'TWK Everett', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 144%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+footer {
+  width: 100%;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: var(--lk-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+footer a,
+h2 a {
+  color: #ff6352;
+  text-decoration-color: #a33529;
+  text-underline-offset: 0.125em;
+}
+
+footer a:hover,
+h2 a {
+  text-decoration-color: #ff6352;
+}
+
+h2 a {
+  text-decoration: none;
+}

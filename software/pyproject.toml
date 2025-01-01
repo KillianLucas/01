@@ -13,20 +13,21 @@ readme = "../README.md"
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
 livekit = "^0.17.2"
-livekit-agents = "^0.10.0"
+livekit-agents = "^0.12.0"
 livekit-plugins-deepgram = "^0.6.7"
 livekit-plugins-openai = "^0.10.1"
 livekit-plugins-silero = "^0.7.1"
 livekit-plugins-elevenlabs = "^0.7.5"
+livekit-plugins-cartesia = "^0.4.2"
 segno = "^1.6.1"
-open-interpreter = {extras = ["os", "server"], version = "^0.3.12"} # You should add a "browser" extra, so selenium isn't in the main package
+open-interpreter = { git = "https://github.com/OpenInterpreter/open-interpreter.git", branch = "development" }
 ngrok = "^1.4.0"
 realtimetts = {extras = ["all"], version = "^0.4.5"}
 realtimestt = "^0.2.41"
 pynput = "^1.7.7"
 yaspin = "^3.0.2"
 pywebview = "^5.2"
-livekit-plugins-cartesia = "^0.4.2"
+resampy = "^0.4.2"
 
 [build-system]
 requires = ["poetry-core"]

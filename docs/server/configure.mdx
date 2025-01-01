@@ -23,11 +23,11 @@ poetry run 01 --profile <profile_name>
 
 ### Standard Profiles
 
-`default.py` is the default profile that is used when no profile is specified. The default TTS is OpenAI.
+`default.py` is the default profile that is used when no profile is specified. The default TTS service is Elevenlabs.
 
-`fast.py` uses elevenlabs and groq, which are the fastest providers.
+`fast.py` uses Cartesia for TTS and Cerebras Llama3.1-8b, which are the fastest providers.
 
-`local.py` uses coqui TTS and runs the --local explorer from Open Interpreter.
+`local.py` requires additional setup to be used with LiveKit. Uses faster-whisper for STT, ollama/codestral for LLM (default), and piper for TTS (default).
 
 ### Custom Profiles
 
@@ -46,38 +46,16 @@ poetry run 01 --profile <profile_name>
 ### Example Profile
 
 ````python
-from interpreter import AsyncInterpreter
-interpreter = AsyncInterpreter()
+from interpreter import Interpreter
+interpreter = Interpreter()
 
 # This is an Open Interpreter compatible profile.
 # Visit https://01.openinterpreter.com/profile for all options.
 
-# 01 supports OpenAI, ElevenLabs, and Coqui (Local) TTS providers
+# 01 supports OpenAI, ElevenLabs, Cartesia, and Coqui (Local) TTS providers
 # {OpenAI: "openai", ElevenLabs: "elevenlabs", Coqui: "coqui"}
-interpreter.tts = "openai"
-
-# Connect your 01 to a language model
-interpreter.llm.model = "gpt-4o"
-interpreter.llm.context_window = 100000
-interpreter.llm.max_tokens = 4096
-# interpreter.llm.api_key = "<your_openai_api_key_here>"
-
-# Tell your 01 where to find and save skills
-interpreter.computer.skills.path = "./skills"
-
-# Extra settings
-interpreter.computer.import_computer_api = True
-interpreter.computer.import_skills = True
-interpreter.computer.run("python", "computer")  # This will trigger those imports
-interpreter.auto_run = True
-interpreter.loop = True
-interpreter.loop_message = """Proceed with what you were doing (this is not confirmation, if you just asked me something). You CAN run code on my machine. If you want to run code, start your message with "```"! If the entire task is done, say exactly 'The task is done.' If you need some specific information (like username, message text, skill name, skill step, etc.) say EXACTLY 'Please provide more information.' If it's impossible, say 'The task is impossible.' (If I haven't provided a task, say exactly 'Let me know what you'd like to do next.') Otherwise keep going. CRITICAL: REMEMBER TO FOLLOW ALL PREVIOUS INSTRUCTIONS. If I'm teaching you something, remember to run the related `computer.skills.new_skill` function."""
-interpreter.loop_breakers = [
-    "The task is done.",
-    "The task is impossible.",
-    "Let me know what you'd like to do next.",
-    "Please provide more information.",
-]
+interpreter.tts = "elevenlabs"
+interpreter.stt = "deepgram"
 
 # Set the identity and personality of your 01
 interpreter.system_message = """
@@ -89,17 +67,37 @@ You can install new packages.
 Be concise. Your messages are being read aloud to the user. DO NOT MAKE PLANS. RUN CODE QUICKLY.
 Try to spread complex tasks over multiple code blocks. Don't try to complex tasks in one go.
 Manually summarize text."""
+
+# Add additional instructions for the 01 
+interpreter.instructions = "Be very concise in your responses."
+
+
+# Connect your 01 to a language model
+interpreter.model = "claude-3-5-sonnet-20240620"
+interpreter.provider = "anthropic"
+interpreter.max_tokens = 4096
+interpreter.temperature = 0
+interpreter.api_key = "<your_anthropic_api_key_here>"
+
+# Extra settings
+interpreter.tools = ["interpreter", "editor"]  # Enabled tool modules
+interpreter.auto_run = True  # Whether to auto-run tools without confirmation
+interpreter.tool_calling = True  # Whether to allow tool/function calling
+
+interpreter.allowed_paths = []  # List of allowed paths
+interpreter.allowed_commands = []  # List of allowed commands
 ````
 
 ### Hosted LLMs
 
-The default LLM for 01 is GPT-4-Turbo. You can find this in the default profile in `software/source/server/profiles/default.py`.
+The default LLM for 01 is Claude 3.5 Sonnet. You can find this in the default profile in `software/source/server/profiles/default.py`.
 
-The fast profile uses Llama3-8b served by Groq. You can find this in the fast profile in `software/source/server/profiles/fast.py`.
+The fast profile uses Llama3.1-8b served by Cerebras. You can find this in the fast profile in `software/source/server/profiles/fast.py`.
 
 ```python
 # Set your profile with a hosted LLM
-interpreter.llm.model = "gpt-4o"
+interpreter.model = "claude-3-5-sonnet-20240620"
+interpreter.provider = "anthropic"
 ```
 
 ### Local LLMs
@@ -110,7 +108,7 @@ Using the local profile launches the Local Explorer where you can select your in
 
 ```python
 # Set your profile with a local LLM
-interpreter.llm.model = "ollama/codestral"
+interpreter.model = "ollama/codestral"
 
 # You can also use the Local Explorer to interactively select your model
 interpreter.local_setup()
@@ -118,26 +116,30 @@ interpreter.local_setup()
 
 ### Hosted TTS
 
-01 supports OpenAI and Elevenlabs for hosted TTS.
+01 supports OpenAI, Elevenlabs, and Cartesia for hosted TTS.
 
 ```python
 # Set your profile with a hosted TTS service
 interpreter.tts = "elevenlabs"
 ```
 
-### Local TTS
+### Local TTS and STT with LiveKit
 
-For local TTS, Coqui is used.
+We recommend having Docker installed for the easiest setup. Local TTS and STT relies on the [openedai-speech](https://github.com/matatonic/openedai-speech?tab=readme-ov-file) and [faster-whisper-server](https://github.com/fedirz/faster-whisper-server) repositories respectively. 
 
+#### Local TTS
+1. Clone the [openedai-speech](https://github.com/matatonic/openedai-speech?tab=readme-ov-file) repository
+2. Follow the Docker Image instructions for your system. Default run `docker compose -f docker-compose.min.yml up --publish 9001:8000` in the root. 
+3. Set your profile with local TTS service
 ```python
-# Set your profile with a local TTS service
-interpreter.tts = "coqui"
+interpreter.tts = "local"
 ```
 
-<Note>
-  When using the Livekit server, the interpreter.tts setting in your profile
-  will be ignored. The Livekit server currently only works with Deepgram for
-  speech recognition and Eleven Labs for text-to-speech. We are working on
-  introducing all-local functionality for the Livekit server as soon as
-  possible.
-</Note>
+#### Local STT
+1. Clone the [faster-whisper-server](https://github.com/fedirz/faster-whisper-server) repository
+2. Follow the Docker Compose Quick Start instructions for your respective system. 
+3. Run `docker run --publish 9002:8000 --volume ~/.cache/huggingface:/root/.cache/huggingface --env WHISPER__MODEL=Systran/faster-whisper-small --detach fedirz/faster-whisper-server:latest-cpu` to publish to port 8001 instead of the default 8000 (since our TTS uses this port).
+4. Set your profile with local STT service
+```python
+interpreter.stt = "local"
+```
